@@ -184,7 +184,7 @@
   <!-- ヘッダー -->
   <header>
     <div class="logo">じょうえつ得ナビ</div>
-    <div class="tagline">今日の豚バラ、どこが安い？上越のスーパー価格比較</div>
+    <div class="tagline">今日のお肉、どこが安い？上越のスーパー価格比較</div>
   </header>
 
   <div class="container">
@@ -202,13 +202,15 @@
 
 
     <!-- カテゴリ選択 -->
-    <div class="categories">
-      <button class="cat-btn active">🔥 本日の目玉</button>
-      <button class="cat-btn">🥩 お肉</button>
-      <button class="cat-btn">🥦 野菜・果物</button>
-      <button class="cat-btn">🐟 お魚</button>
-      <button class="cat-btn">🥛 卵・乳製品</button>
-    </div>
+    
+<div class="categories">
+  <a href="index.html" style="text-decoration:none;"><button class="cat-btn active">🔥 本日の目玉</button></a>
+  <!-- 「お肉」を押したら、さっき作った豚バラ比較（search.html）へ飛ばす -->
+  <a href="search.html" style="text-decoration:none;"><button class="cat-btn">🥩 お肉</button></a>
+  <a href="search.html" style="text-decoration:none;"><button class="cat-btn">🥦 野菜・果物</button></a>
+  <a href="search.html" style="text-decoration:none;"><button class="cat-btn">🐟 お魚</button></a>
+  <a href="search.html" style="text-decoration:none;"><button class="cat-btn">🥛 卵・乳製品</button></a>
+</div>
 
     <!-- 本日の最安値ピックアップ -->
     <div class="card">
