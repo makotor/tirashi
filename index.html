@@ -1,266 +1,270 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>本日の特売情報 | スーパーWEBチラシ</title>
+  <title>じょうえつ得ナビ | 上越地域のスーパー価格比較</title>
   <style>
     :root {
-      --main-color: #008054; /* 新鮮さをイメージしたグリーン */
-      --accent-color: #d9534f; /* 価格強調用の赤 */
-      --bg-color: #f8f9fa;
+      --main-color: #e60012;  /* 特売をイメージする明るい赤 */
+      --sub-color: #fff3f3;   /* 薄いピンク背景 */
+      --accent-color: #ff9900;/* オレンジ（注目） */
+      --bg-color: #f4f5f7;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg-color);
-      color: #333;
       margin: 0;
       padding: 0;
-      font-size: 15px;
+      color: #333;
     }
 
+    /* ヘッダー */
     header {
       background-color: var(--main-color);
       color: white;
-      text-align: center;
       padding: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    header h1 { margin: 0; font-size: 1.3rem; }
-    header p { margin: 5px 0 0; font-size: 0.85rem; opacity: 0.9; }
+    .logo {
+      font-size: 1.4rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .tagline {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      margin-top: 2px;
+    }
 
     .container {
       max-width: 600px;
       margin: 0 auto;
-      padding: 15px;
+      padding: 12px;
     }
 
-    .card {
+    /* 検索バー */
+    .search-box {
       background: white;
-      border-radius: 8px;
-      padding: 15px;
-      margin-bottom: 20px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: var(--main-color);
-      border-bottom: 2px solid var(--main-color);
-      padding-bottom: 6px;
-      margin-top: 0;
-      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 25px;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+      margin-bottom: 15px;
     }
-
-    /* 商品リスト（箇条書き形式）のスタイル */
-    .item-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .item-card {
-      padding: 12px 0;
-      border-bottom: 1px dashed #e0e0e0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .item-card:last-child { border-bottom: none; }
-
-    .item-info { flex: 1; padding-right: 10px; }
-    .item-name { font-weight: bold; font-size: 1rem; color: #111; }
-    .item-details { font-size: 0.85rem; color: #666; margin-top: 3px; }
-    .item-tag {
-      display: inline-block;
-      background: #e9ecef;
-      color: #495057;
-      padding: 1px 6px;
-      border-radius: 3px;
-      font-size: 0.75rem;
-      margin-right: 5px;
-    }
-
-    .item-price-box { text-align: right; white-space: nowrap; }
-    .price-value { font-size: 1.3rem; font-weight: bold; color: var(--accent-color); }
-    .price-unit { font-size: 0.8rem; color: #666; }
-    .tax-included { font-size: 0.75rem; color: #888; display: block; }
-
-    /* 管理用入力フォーム（店舗用） */
-    .admin-panel {
-      background: #eef7f2;
-      border: 1px solid #c3e6cb;
-    }
-    .form-group { margin-bottom: 10px; }
-    .form-group label { display: block; font-size: 0.8rem; font-weight: bold; margin-bottom: 3px; }
-    .form-row { display: flex; gap: 8px; }
-    input[type="text"], input[type="number"], select {
+    .search-box input {
+      border: none;
       width: 100%;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      box-sizing: border-box;
-      font-size: 0.9rem;
+      padding: 5px 10px;
+      font-size: 0.95rem;
+      outline: none;
     }
-    .btn-add {
-      background-color: var(--main-color);
+    .search-box button {
+      background: var(--main-color);
       color: white;
       border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 4px;
+      padding: 6px 15px;
+      border-radius: 20px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 5px;
     }
-    .btn-add:hover { opacity: 0.9; }
 
-    .badge-today {
+    /* クイックカテゴリ */
+    .categories {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .cat-btn {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 8px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      margin-right: 6px;
+      cursor: pointer;
+    }
+    .cat-btn.active {
+      background: var(--main-color);
+      color: white;
+      border-color: var(--main-color);
+    }
+
+    /* カードデザイン */
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .card-header {
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--sub-color);
+      padding-bottom: 8px;
+    }
+    .badge-hot {
       background: var(--accent-color);
       color: white;
+      font-size: 0.7rem;
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
+    /* 価格比較リスト */
+    .compare-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px dashed #eee;
+    }
+    .compare-item:last-child { border-bottom: none; }
+    .item-title { font-weight: bold; font-size: 0.95rem; }
+    .store-tag {
+      display: inline-block;
       font-size: 0.75rem;
+      background: #eee;
       padding: 2px 6px;
-      border-radius: 10px;
+      border-radius: 4px;
+      margin-top: 3px;
+    }
+    .price {
+      text-align: right;
+    }
+    .price-num {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--main-color);
+    }
+    .price-unit { font-size: 0.75rem; color: #666; }
+
+    /* スーパーロゴ並び */
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .store-card {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      text-align: center;
+      padding: 12px 5px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    .store-card:hover { background: var(--sub-color); }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 0.75rem;
+      color: #888;
     }
   </style>
 </head>
 <body>
 
+  <!-- ヘッダー -->
   <header>
-    <h1>スーパー新鮮館 上越店</h1>
-    <p>本日の日替わり特売・WEB価格一覧</p>
+    <div class="logo">じょうえつ得ナビ</div>
+    <div class="tagline">今日の豚バラ、どこが安い？上越のスーパー価格比較</div>
   </header>
 
   <div class="container">
 
-    <!-- お客さんが見ている画面（商品一覧） -->
-    <div class="card">
-      <div class="card-title">
-        <span>🛒 本日の特売品リスト</span>
-        <span class="badge-today">8月3日(月) 限定</span>
-      </div>
-
-      <ul class="item-list" id="productList">
-        <!-- JSでここに動的に追加されます -->
-      </ul>
+    <!-- 検索ボックス -->
+    <div class="search-box">
+      <input type="text" placeholder="食材名を入力（例：豚バラ、キャベツ、卵）">
+      <button>検索</button>
     </div>
 
-    <!-- 店舗側（スーパーの担当者）が入力する画面 -->
-    <div class="card admin-panel">
-      <div class="card-title" style="color: #2b5435; border-color: #2b5435;">
-        <span>📝 【店舗専用】特売品を追加</span>
+    <!-- カテゴリ選択 -->
+    <div class="categories">
+      <button class="cat-btn active">🔥 本日の目玉</button>
+      <button class="cat-btn">🥩 お肉</button>
+      <button class="cat-btn">🥦 野菜・果物</button>
+      <button class="cat-btn">🐟 お魚</button>
+      <button class="cat-btn">🥛 卵・乳製品</button>
+    </div>
+
+    <!-- 本日の最安値ピックアップ -->
+    <div class="card">
+      <div class="card-header">
+        <span>🏆 今日の上越「底値」ピックアップ</span>
+        <span class="badge-hot">毎日更新</span>
       </div>
-      <form id="itemForm">
-        <div class="form-group">
-          <label>カテゴリ</label>
-          <select id="category">
-            <option value="精肉">精肉</option>
-            <option value="青果">青果</option>
-            <option value="鮮魚">鮮魚</option>
-            <option value="一般食品">一般食品</option>
-          </select>
+
+      <div class="compare-item">
+        <div>
+          <div class="item-title">国産 豚バラ薄切り (100g)</div>
+          <span class="store-tag" style="background:#e3f2fd; color:#0d47a1;">イチコ</span>
+          <span style="font-size:0.75rem; color:#666;">（高田・直江津 各店）</span>
         </div>
-        <div class="form-group">
-          <label>商品名</label>
-          <input type="text" id="itemName" placeholder="例：国産 豚バラ薄切り" required>
+        <div class="price">
+          <span class="price-num">138</span><span class="price-unit">円(税抜)</span>
         </div>
-        <div class="form-row">
-          <div class="form-group" style="flex: 1;">
-            <label>規格（容量など）</label>
-            <input type="text" id="spec" placeholder="例：100gあたり / 1パック" required>
-          </div>
-          <div class="form-group" style="flex: 1;">
-            <label>産地</label>
-            <input type="text" id="origin" placeholder="例：新潟県産 / 国内産" required>
-          </div>
+      </div>
+
+      <div class="compare-item">
+        <div>
+          <div class="item-title">キャベツ (1玉)</div>
+          <span class="store-tag" style="background:#e8f5e9; color:#1b5e20;">ナルス</span>
+          <span style="font-size:0.75rem; color:#666;">（春日山店・南高田店など）</span>
         </div>
-        <div class="form-group">
-          <label>本体価格（税抜・円）</label>
-          <input type="number" id="price" placeholder="例：158" required>
+        <div class="price">
+          <span class="price-num">98</span><span class="price-unit">円(税抜)</span>
         </div>
-        <button type="submit" class="btn-add">＋ 特売品リストに追加（即時反映）</button>
-      </form>
+      </div>
+
+      <div class="compare-item">
+        <div>
+          <div class="item-title">ミックス卵 (10個入・1000円以上購入)</div>
+          <span class="store-tag" style="background:#fff3e0; color:#e65100;">原信</span>
+          <span style="font-size:0.75rem; color:#666;">（春日新田店・土橋店など）</span>
+        </div>
+        <div class="price">
+          <span class="price-num">158</span><span class="price-unit">円(税抜)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- お店から探す -->
+    <div class="card">
+      <div class="card-header">
+        <span>🏬 いつものお店から探す</span>
+      </div>
+      <div class="store-grid">
+        <div class="store-card">イチコ</div>
+        <div class="store-card">ナルス</div>
+        <div class="store-card">原信</div>
+        <div class="store-card">ピアレMart</div>
+        <div class="store-card">ウオロク</div>
+        <div class="store-card">業務スーパー</div>
+      </div>
     </div>
 
   </div>
 
-  <script>
-    // 初期表示用のサンプルデータ（店舗側があらかじめ登録してあるイメージ）
-    const initialProducts = [
-      { category: '精肉', name: '国産 豚バラしゃぶしゃぶ用', spec: '100gあたり', origin: '群馬県産', price: 168 },
-      { category: '青果', name: '大玉キャベツ', spec: '1玉', origin: '長野県産', price: 128 },
-      { category: '鮮魚', name: '刺身用 真タコ', spec: '100gあたり', origin: 'モーリタニア産', price: 248 },
-      { category: '青果', name: 'もも（あかつき）', spec: '1箱（4〜5玉）', origin: '山梨県産', price: 798 }
-    ];
-
-    const productListEl = document.getElementById('productList');
-    const itemForm = document.getElementById('itemForm');
-
-    // 商品リストを描画する関数
-    function renderProducts(products) {
-      productListEl.innerHTML = '';
-      products.forEach(item => {
-        const taxIncluded = Math.round(item.price * 1.08); // 8%税込計算
-        const li = document.createElement('li');
-        li.className = 'item-card';
-        li.innerHTML = `
-          <div class="item-info">
-            <div class="item-name">${escapeHtml(item.name)}</div>
-            <div class="item-details">
-              <span class="item-tag">${escapeHtml(item.category)}</span>
-              <span>【産地】${escapeHtml(item.origin)}</span> ／ 
-              <span>【規格】${escapeHtml(item.spec)}</span>
-            </div>
-          </div>
-          <div class="item-price-box">
-            <span class="price-value">${item.price}</span><span class="price-unit">円</span>
-            <span class="tax-included">(税込 ${taxIncluded}円)</span>
-          </div>
-        `;
-        productListEl.appendChild(li);
-      });
-    }
-
-    // 簡易エスケープ関数（安全対策）
-    function escapeHtml(str) {
-      return str.replace(/[&<>"']/g, function(m) {
-        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
-      });
-    }
-
-    // フォーム送信時の処理（新しい商品の追加）
-    itemForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const newProduct = {
-        category: document.getElementById('category').value,
-        name: document.getElementById('itemName').value,
-        spec: document.getElementById('spec').value,
-        origin: document.getElementById('origin').value,
-        price: parseInt(document.getElementById('price').value, 10)
-      };
-
-      // 配列の先頭に追加して再描画
-      initialProducts.unshift(newProduct);
-      renderProducts(initialProducts);
-
-      // フォームをリセット（商品名へフォーカス）
-      document.getElementById('itemName').value = '';
-      document.getElementById('spec').value = '';
-      document.getElementById('origin').value = '';
-      document.getElementById('price').value = '';
-      document.getElementById('itemName').focus();
-    });
-
-    // 初回描画
-    renderProducts(initialProducts);
-  </script>
+  <footer>
+    &copy; じょうえつ得ナビ - 上越地域の買物応援ポータル
+  </footer>
 
 </body>
 </html>
-
