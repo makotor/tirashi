@@ -6,7 +6,7 @@
   <title>「銀鮭（切身）」の最安値比較 | じょうえつ得ナビ</title>
   <style>
     :root {
-      --main-color: #0066cc; /* お魚向けに爽やかなブルー系 */
+      --main-color: #0066cc;
       --sub-color: #eef6ff;
       --best-price-color: #ff9900;
       --bg-color: #f4f5f7;
@@ -31,256 +31,135 @@
       top: 0;
       z-index: 100;
     }
-    .back-btn {
-      color: white;
-      text-decoration: none;
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
-    .search-summary {
-      font-size: 1rem;
-      font-weight: bold;
-    }
+    .back-btn { color: white; text-decoration: none; font-size: 1.2rem; font-weight: bold; }
+    .search-summary { font-size: 1rem; font-weight: bold; }
 
-    .container {
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 12px;
-    }
+    .container { max-width: 600px; margin: 0 auto; padding: 12px; }
 
     .filter-bar {
-      background: white;
-      padding: 10px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.85rem;
+      background: white; padding: 10px; border-radius: 8px; margin-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
     .price-card {
-      background: white;
-      border-radius: 10px;
-      padding: 15px;
-      margin-bottom: 12px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-      position: relative;
-      border: 1px solid transparent;
+      background: white; border-radius: 10px; padding: 15px; margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.06); position: relative; border: 1px solid transparent;
     }
 
     .price-card.is-cheapest {
-      border: 2px solid var(--best-price-color);
-      background: #fffdf9;
+      border: 2px solid var(--best-price-color); background: #fffdf9;
     }
 
     .badge-cheapest {
-      position: absolute;
-      top: -10px;
-      left: 15px;
-      background: var(--best-price-color);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: bold;
-      padding: 2px 10px;
-      border-radius: 12px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: absolute; top: -10px; left: 15px; background: var(--best-price-color);
+      color: white; font-size: 0.75rem; font-weight: bold; padding: 2px 10px;
+      border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
-    .store-name {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #111;
-    }
-    .store-location {
-      font-size: 0.75rem;
-      color: #666;
-    }
-
-    .product-name {
-      font-size: 0.95rem;
-      font-weight: bold;
-      color: #444;
-      margin-bottom: 6px;
-    }
-
-    .product-meta {
-      font-size: 0.8rem;
-      color: #666;
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 8px;
-    }
-    .tag {
-      background: #eef2f5;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-    .tag-flyer {
-      background: #e3f2fd;
-      color: var(--main-color);
-      font-weight: bold;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* プロのワンポイント解説エリア */
+    .store-name { font-size: 1.1rem; font-weight: bold; color: #111; }
+    .product-name { font-size: 0.95rem; font-weight: bold; color: #444; margin: 6px 0; }
+    
     .pro-comment {
-      background: #f0f7ff;
-      border-left: 3px solid var(--main-color);
-      padding: 6px 10px;
-      font-size: 0.78rem;
-      color: #004488;
-      border-radius: 0 4px 4px 0;
-      margin-bottom: 10px;
+      background: #f0f7ff; border-left: 3px solid var(--main-color);
+      padding: 6px 10px; font-size: 0.78rem; color: #004488; border-radius: 0 4px 4px 0; margin-bottom: 10px;
     }
 
     .price-main-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      background: #f8f9fa;
-      padding: 10px;
-      border-radius: 6px;
+      display: flex; justify-content: space-between; align-items: flex-end;
+      background: #f8f9fa; padding: 10px; border-radius: 6px;
     }
-    .unit-price-label {
-      font-size: 0.75rem;
-      color: #666;
-    }
-    .unit-price-value {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: var(--main-color);
-    }
-    .total-price-info {
-      text-align: right;
-      font-size: 0.8rem;
-      color: #555;
-    }
+    .unit-price-label { font-size: 0.75rem; color: #666; }
+    .unit-price-value { font-size: 1.4rem; font-weight: bold; color: var(--main-color); }
+    .total-price-info { text-align: right; font-size: 0.8rem; color: #555; }
 
-    footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 0.75rem;
-      color: #888;
-    }
+    #loading { text-align: center; padding: 30px; color: #666; }
   </style>
 </head>
 <body>
 
-  <!-- ヘッダー -->
   <header>
     <a href="index.html" class="back-btn">←</a>
-    <div class="search-summary">🐟 「銀鮭（甘口・切身）」の最安値比較</div>
+    <div class="search-summary">🐟 「銀鮭（切身）」の最安値比較</div>
   </header>
 
   <div class="container">
-
-    <!-- 絞り込みバー -->
     <div class="filter-bar">
       <span>表示基準：<strong>100gあたりの換算価格</strong></span>
-      <span style="font-size:0.75rem; color:#888;">全3店舗掲載中</span>
+      <span id="data-count" style="font-size:0.75rem; color:#888;">読み込み中...</span>
     </div>
 
-    <!-- 1位：イチコ（チラシ特売） -->
-    <div class="price-card is-cheapest">
-      <div class="badge-cheapest">👑 本日の最安値！（8/5特売）</div>
-      <div class="card-header" style="margin-top: 5px;">
-        <div>
-          <div class="store-name">イチコ</div>
-          <div class="store-location">高田店・直江津店・高田西店・幸店 ほか全店</div>
-        </div>
-      </div>
-      <div class="product-name">チリ産 銀鮭切身（甘口・解凍）</div>
-      <div class="product-meta">
-        <span class="tag-flyer">📄 チラシ特売品</span>
-        <span class="tag">養殖 / 解凍</span>
-        <span class="tag">規格：3切パック</span>
-      </div>
-      <div class="pro-comment">
-        💡 <strong>魚屋の目線：</strong> 脂の乗りが安定した養殖甘口。お弁当や朝食に冷めてもふっくら美味しく頂ける定番品です！
-      </div>
-      <div class="price-main-box">
-        <div>
-          <div class="unit-price-label">100gあたり（単価）</div>
-          <div><span class="unit-price-value">158</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
-        </div>
-        <div class="total-price-info">
-          1パック(約240g)：約379円<br>
-          <span style="font-size:0.75rem; color:#888;">(税込 170円/100g)</span>
-        </div>
-      </div>
+    <!-- ここにフォームから届いたデータが自動で入ります -->
+    <div id="card-list">
+      <div id="loading">最新の特売データを読み込み中...</div>
     </div>
-
-    <!-- 2位：ナルス -->
-    <div class="price-card">
-      <div class="card-header">
-        <div>
-          <div class="store-name">ナルス</div>
-          <div class="store-location">春日山店・南高田店・国府店 ほか</div>
-        </div>
-      </div>
-      <div class="product-name">チリ産 銀鮭厚切り（甘塩・解凍）</div>
-      <div class="product-meta">
-        <span class="tag">養殖 / 解凍</span>
-        <span class="tag">規格：ジャンボパック 5切</span>
-      </div>
-      <div class="pro-comment">
-        💡 <strong>魚屋の目線：</strong> 切身が少し厚めで食べ応えあり。100g単価はわずかに高めですが、満足感の高いカットです。
-      </div>
-      <div class="price-main-box">
-        <div>
-          <div class="unit-price-label">100gあたり（単価）</div>
-          <div><span class="unit-price-value">178</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
-        </div>
-        <div class="total-price-info">
-          1パック(約450g)：約801円<br>
-          <span style="font-size:0.75rem; color:#888;">(税込 192円/100g)</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3位：原信 -->
-    <div class="price-card">
-      <div class="card-header">
-        <div>
-          <div class="store-name">原信</div>
-          <div class="store-location">春日新田店・土橋店・鴨島店 ほか</div>
-        </div>
-      </div>
-      <div class="product-name">チリ産 プレミアム銀鮭切身（甘口）</div>
-      <div class="product-meta">
-        <span class="tag">養殖 / 解凍</span>
-        <span class="tag">規格：2切パック</span>
-      </div>
-      <div class="pro-comment">
-        💡 <strong>魚屋の目線：</strong> 独自ブランドで厳選された高脂質の鮭。日常使いというよりはちょっと贅沢したい時に向いています。
-      </div>
-      <div class="price-main-box">
-        <div>
-          <div class="unit-price-label">100gあたり（単価）</div>
-          <div><span class="unit-price-value">198</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
-        </div>
-        <div class="total-price-info">
-          1パック(約180g)：約356円<br>
-          <span style="font-size:0.75rem; color:#888;">(税込 213円/100g)</span>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <footer>
-    &copy; じょうえつ得ナビ - お魚価格比較
-  </footer>
+  <script>
+    // ★ご自身のGoogleスプレッドシートIDをここに貼り付けてください
+    const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
 
+    async function loadData() {
+      try {
+        const response = await fetch(csvUrl);
+        const data = await response.text();
+        
+        // CSVを分解
+        const rows = data.split('\n').map(row => row.split(',').map(cell => cell.replace(/^"(.*)"$/, '$1')));
+        const items = [];
+
+        // ヘッダーを除いたデータ行を取得
+        for(let i = 1; i < rows.length; i++) {
+          if(!rows[i][1]) continue; // 店舗名がない行はスキップ
+          items.push({
+            store: rows[i][1],
+            name: rows[i][2],
+            unitPrice: parseInt(rows[i][3]) || 0,
+            packPrice: rows[i][4],
+            comment: rows[i][5],
+            isCheapest: rows[i][6] === '最安値'
+          });
+        }
+
+        // 安い順に並び替え
+        items.sort((a, b) => a.unitPrice - b.unitPrice);
+
+        // 画面を描画
+        const listContainer = document.getElementById('card-list');
+        listContainer.innerHTML = '';
+        document.getElementById('data-count').textContent = `全${items.length}件掲載中`;
+
+        items.forEach((item, index) => {
+          const card = document.createElement('div');
+          const isTop = item.isCheapest || index === 0;
+          card.className = `price-card ${isTop ? 'is-cheapest' : ''}`;
+
+          card.innerHTML = `
+            ${isTop ? '<div class="badge-cheapest">👑 本日の最安値！</div>' : ''}
+            <div class="store-name" style="${isTop ? 'margin-top: 5px;' : ''}">${item.store}</div>
+            <div class="product-name">${item.name}</div>
+            ${item.comment ? `<div class="pro-comment">💡 <strong>魚屋の目線：</strong> ${item.comment}</div>` : ''}
+            <div class="price-main-box">
+              <div>
+                <div class="unit-price-label">100gあたり（単価）</div>
+                <div><span class="unit-price-value">${item.unitPrice}</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
+              </div>
+              <div class="total-price-info">
+                パック目安：${item.packPrice}<br>
+                <span style="font-size:0.75rem; color:#888;">(税込 ${Math.round(item.unitPrice * 1.08)}円/100g)</span>
+              </div>
+            </div>
+          `;
+          listContainer.appendChild(card);
+        });
+
+      } catch (error) {
+        document.getElementById('card-list').innerHTML = '<div id="loading">データの読み込みに失敗しました。ID設定を確認してください。</div>';
+      }
+    }
+
+    loadData();
+  </script>
 </body>
 </html>
