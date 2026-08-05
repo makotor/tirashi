@@ -8,7 +8,7 @@
     :root {
       --main-color: #e60012;
       --sub-color: #fff3f3;
-      --best-price-color: #ff9900; /* 最安値強調カラー */
+      --best-price-color: #ff9900;
       --bg-color: #f4f5f7;
     }
 
@@ -20,7 +20,6 @@
       color: #333;
     }
 
-    /* ヘッダー */
     header {
       background-color: var(--main-color);
       color: white;
@@ -49,7 +48,6 @@
       padding: 12px;
     }
 
-    /* 再検索・絞り込みバー */
     .filter-bar {
       background: white;
       padding: 10px;
@@ -61,14 +59,7 @@
       font-size: 0.85rem;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
-    .sort-select {
-      padding: 5px 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 0.85rem;
-    }
 
-    /* 比較カード */
     .price-card {
       background: white;
       border-radius: 10px;
@@ -78,7 +69,7 @@
       position: relative;
       border: 1px solid transparent;
     }
-    /* 最安値カードの強調枠 */
+
     .price-card.is-cheapest {
       border: 2px solid var(--best-price-color);
       background: #fffdf9;
@@ -123,7 +114,8 @@
       font-size: 0.8rem;
       color: #666;
       display: flex;
-      gap: 10px;
+      gap: 6px;
+      flex-wrap: wrap;
       margin-bottom: 10px;
     }
     .tag {
@@ -131,8 +123,14 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
+    .tag-flyer {
+      background: #ffebee;
+      color: var(--main-color);
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
 
-    /* 価格強調エリア */
     .price-main-box {
       display: flex;
       justify-content: space-between;
@@ -168,34 +166,32 @@
 
   <!-- ヘッダー -->
   <header>
-    <a href="#" class="back-btn">←</a>
-    <div class="search-summary">🔍 「豚バラ」の比較結果（4件）</div>
+    <a href="index.html" class="back-btn">←</a>
+    <div class="search-summary">🔍 「豚バラ」の最安値比較</div>
   </header>
 
   <div class="container">
 
-    <!-- 条件絞り込み・並び替え -->
+    <!-- 絞り込みバー -->
     <div class="filter-bar">
       <span>表示基準：<strong>100gあたりの換算価格</strong></span>
-      <select class="sort-select">
-        <option>安価順（100g単価）</option>
-        <option>距離が近い順</option>
-      </select>
+      <span style="font-size:0.75rem; color:#888;">全4店舗掲載中</span>
     </div>
 
-    <!-- 最安値店舗（1位） -->
+    <!-- 1位：イチコ（チラシ特売） -->
     <div class="price-card is-cheapest">
-      <div class="badge-cheapest">👑 今日の最安値！</div>
+      <div class="badge-cheapest">👑 本日の最安値！（8/4-8/5特売）</div>
       <div class="card-header" style="margin-top: 5px;">
         <div>
           <div class="store-name">イチコ</div>
-          <div class="store-location">高田店・直江津店・高田西店 ほか全店</div>
+          <div class="store-location">高田店・直江津店・高田西店・幸店 ほか全店</div>
         </div>
       </div>
-      <div class="product-name">国産 豚バラ薄切り（解凍）</div>
+      <div class="product-name">国産 豚バラ切り落とし（チラシ掲載品）</div>
       <div class="product-meta">
-        <span class="tag">産地：群馬県産</span>
-        <span class="tag">規格：1パック 約300g</span>
+        <span class="tag-flyer">📄 チラシ特売品</span>
+        <span class="tag">産地：国内産</span>
+        <span class="tag">規格：ジャンボパック約400g</span>
       </div>
       <div class="price-main-box">
         <div>
@@ -203,13 +199,13 @@
           <div><span class="unit-price-value">128</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
         </div>
         <div class="total-price-info">
-          1パック目安：約384円<br>
+          1パック目安：約512円<br>
           <span style="font-size:0.75rem; color:#888;">(税込 138円/100g)</span>
         </div>
       </div>
     </div>
 
-    <!-- 2位 -->
+    <!-- 2位：ナルス -->
     <div class="price-card">
       <div class="card-header">
         <div>
@@ -234,7 +230,7 @@
       </div>
     </div>
 
-    <!-- 3位 -->
+    <!-- 3位：原信 -->
     <div class="price-card">
       <div class="card-header">
         <div>
@@ -244,7 +240,7 @@
       </div>
       <div class="product-name">和豚もちぶた 豚バラブロック</div>
       <div class="product-meta">
-        <span class="tag">産地：新潟県産（ブランド豚）</span>
+        <span class="tag">産地：新潟県産</span>
         <span class="tag">規格：1パック 約250g</span>
       </div>
       <div class="price-main-box">
@@ -259,7 +255,7 @@
       </div>
     </div>
 
-    <!-- 4位 -->
+    <!-- 4位：ピアレMart -->
     <div class="price-card">
       <div class="card-header">
         <div>
@@ -267,7 +263,7 @@
           <div class="store-location">直江津店</div>
         </div>
       </div>
-      <div class="product-name">国産 豚バラ焼肉用（厚切り）</div>
+      <div class="product-name">国産 豚バラ焼肉用</div>
       <div class="product-meta">
         <span class="tag">産地：国内産</span>
         <span class="tag">規格：1パック 約300g</span>
@@ -292,4 +288,3 @@
 
 </body>
 </html>
-
