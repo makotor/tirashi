@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>「銀鮭（切身）」の最安値比較 | じょうえつ得ナビ</title>
+  <!-- CSVを正しく分解するためのライブラリを読み込み -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
   <style>
     :root {
       --main-color: #0066cc;
@@ -89,7 +91,6 @@
       <span id="data-count" style="font-size:0.75rem; color:#888;">読み込み中...</span>
     </div>
 
-    <!-- ここにフォームから届いたデータが自動で入ります -->
     <div id="card-list">
       <div id="loading">最新の特売データを読み込み中...</div>
     </div>
@@ -97,66 +98,74 @@
 
   <script>
     // ★ご自身のGoogleスプレッドシートIDをここに貼り付けてください
-    const SPREADSHEET_ID = 'https://docs.google.com/spreadsheets/d/1jXRgrOUljTB4XXcJh1nPRLalAQZpoW0aTdUgG6dX5QI/edit?usp=drivesdk';
-    const csvUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv`;
+    const SPREADSHEET_ID = 'YOUR_SPREADSHEET_ID_HERE';
+    const csvUrl = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
 
-    async function loadData() {
-      try {
-        const response = await fetch(csvUrl);
-        const data = await response.text();
-        
-        // CSVを分解
-        const rows = data.split('\n').map(row => row.split(',').map(cell => cell.replace(/^"(.*)"$/, '$1')));
-        const items = [];
-
-        // ヘッダーを除いたデータ行を取得
-        for(let i = 1; i < rows.length; i++) {
-          if(!rows[i][1]) continue; // 店舗名がない行はスキップ
-          items.push({
-            store: rows[i][1],
-            name: rows[i][2],
-            unitPrice: parseInt(rows[i][3]) || 0,
-            packPrice: rows[i][4],
-            comment: rows[i][5],
-            isCheapest: rows[i][6] === '最安値'
+    function loadData() {
+      Papa.parse(csvUrl, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          const items = [];
+          
+          results.data.forEach(row => {
+            // 店舗名がある行のみ処理
+            const store = row['店舗名'] || row['店舗名 '];
+            if (store) {
+              const unitPrice = parseInt(row['単価']) || 0;
+              items.push({
+                store: store,
+                name: row['商品名'] || '',
+                unitPrice: unitPrice,
+                packPrice: row['パック価格'] || '',
+                comment: row['プロのコメント'] || '',
+                isCheapest: (row['最安値フラグ'] || '').includes('最安値')
+              });
+            }
           });
+
+          // 安い順に並び替え
+          items.sort((a, b) => a.unitPrice - b.unitPrice);
+
+          // 画面にカードを表示
+          const listContainer = document.getElementById('card-list');
+          listContainer.innerHTML = '';
+          document.getElementById('data-count').textContent = `全${items.length}件掲載中`;
+
+          if (items.length === 0) {
+            listContainer.innerHTML = '<div id="loading">データが見つかりませんでした。スプレッドシートの1行目の見出しを確認してください。</div>';
+            return;
+          }
+
+          items.forEach((item, index) => {
+            const card = document.createElement('div');
+            const isTop = item.isCheapest || index === 0;
+            card.className = `price-card ${isTop ? 'is-cheapest' : ''}`;
+
+            card.innerHTML = `
+              ${isTop ? '<div class="badge-cheapest">👑 本日の最安値！</div>' : ''}
+              <div class="store-name" style="${isTop ? 'margin-top: 5px;' : ''}">${item.store}</div>
+              <div class="product-name">${item.name}</div>
+              ${item.comment ? `<div class="pro-comment">💡 <strong>魚屋の目線：</strong> ${item.comment}</div>` : ''}
+              <div class="price-main-box">
+                <div>
+                  <div class="unit-price-label">100gあたり（単価）</div>
+                  <div><span class="unit-price-value">${item.unitPrice}</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
+                </div>
+                <div class="total-price-info">
+                  パック目安：${item.packPrice}<br>
+                  <span style="font-size:0.75rem; color:#888;">(税込 ${Math.round(item.unitPrice * 1.08)}円/100g)</span>
+                </div>
+              </div>
+            `;
+            listContainer.appendChild(card);
+          });
+        },
+        error: function(err) {
+          document.getElementById('card-list').innerHTML = '<div id="loading">データの読み込みに失敗しました。IDとアクセス権限（リンクを知っている全員）を確認してください。</div>';
         }
-
-        // 安い順に並び替え
-        items.sort((a, b) => a.unitPrice - b.unitPrice);
-
-        // 画面を描画
-        const listContainer = document.getElementById('card-list');
-        listContainer.innerHTML = '';
-        document.getElementById('data-count').textContent = `全${items.length}件掲載中`;
-
-        items.forEach((item, index) => {
-          const card = document.createElement('div');
-          const isTop = item.isCheapest || index === 0;
-          card.className = `price-card ${isTop ? 'is-cheapest' : ''}`;
-
-          card.innerHTML = `
-            ${isTop ? '<div class="badge-cheapest">👑 本日の最安値！</div>' : ''}
-            <div class="store-name" style="${isTop ? 'margin-top: 5px;' : ''}">${item.store}</div>
-            <div class="product-name">${item.name}</div>
-            ${item.comment ? `<div class="pro-comment">💡 <strong>魚屋の目線：</strong> ${item.comment}</div>` : ''}
-            <div class="price-main-box">
-              <div>
-                <div class="unit-price-label">100gあたり（単価）</div>
-                <div><span class="unit-price-value">${item.unitPrice}</span> <span style="font-size:0.8rem; color:var(--main-color); font-weight:bold;">円(税抜)</span></div>
-              </div>
-              <div class="total-price-info">
-                パック目安：${item.packPrice}<br>
-                <span style="font-size:0.75rem; color:#888;">(税込 ${Math.round(item.unitPrice * 1.08)}円/100g)</span>
-              </div>
-            </div>
-          `;
-          listContainer.appendChild(card);
-        });
-
-      } catch (error) {
-        document.getElementById('card-list').innerHTML = '<div id="loading">データの読み込みに失敗しました。ID設定を確認してください。</div>';
-      }
+      });
     }
 
     loadData();
